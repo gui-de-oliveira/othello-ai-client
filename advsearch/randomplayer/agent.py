@@ -20,5 +20,3 @@ if __name__ == '__main__':
     print('Resulting state:')
     b.process_move(move, 'B')
     b.print_board()
-
-

@@ -19,4 +19,3 @@ def make_move(the_board, color):
     # a primeira jogada com as pretas.
     # Remova-o e coloque a sua implementacao da poda alpha-beta
     return random.choice([(2, 3), (4, 5), (5, 4), (3, 2)])
-

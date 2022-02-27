@@ -73,7 +73,8 @@ class Board(object):
     DOWN_RIGHT = (1, 1)
 
     # list with all directions
-    DIRECTIONS = [UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT]
+    DIRECTIONS = [UP, DOWN, LEFT, RIGHT,
+                  UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT]
 
     def __init__(self):
         """
@@ -138,7 +139,8 @@ class Board(object):
         tx += dx
         ty += dy
 
-        opp = self.BLACK if color == self.WHITE else self.WHITE  # inline opponent calc.
+        # inline opponent calc.
+        opp = self.BLACK if color == self.WHITE else self.WHITE
 
         if not (0 <= tx <= 7 and 0 <= ty <= 7) or self.tiles[tx][ty] != opp:
             return False
@@ -146,7 +148,8 @@ class Board(object):
         while self.tiles[tx][ty] == opp:  # putting is_within_bounds here yields more calls
             tx += dx
             ty += dy
-            if not (0 <= tx <= 7 and 0 <= ty <= 7):  # self.is_within_bounds((tx, ty)):
+            # self.is_within_bounds((tx, ty)):
+            if not (0 <= tx <= 7 and 0 <= ty <= 7):
                 return False
 
         if self.tiles[tx][ty] == self.EMPTY:
@@ -170,9 +173,11 @@ class Board(object):
         tx, ty = owned
         tx += dx
         ty += dy
-        opp = self.BLACK if color == self.WHITE else self.WHITE  # inline opponent calc.
+        # inline opponent calc.
+        opp = self.BLACK if color == self.WHITE else self.WHITE
 
-        if not (0 <= tx <= 7 and 0 <= ty <= 7) or self.tiles[tx][ty] != opp:  # color:
+        # color:
+        if not (0 <= tx <= 7 and 0 <= ty <= 7) or self.tiles[tx][ty] != opp:
             return False
 
         while self.tiles[tx][ty] == opp:
@@ -225,7 +230,8 @@ class Board(object):
         :param direction:
         :return:
         """
-        destination = self.find_bracket(origin, color, direction)  # move, player, board, direction)
+        destination = self.find_bracket(
+            origin, color, direction)  # move, player, board, direction)
         if not destination:
             return
 
@@ -268,10 +274,12 @@ class Board(object):
         :param color:
         """
         # test if every empty tile on the board is a legal move
-        tiles = [(x, y) for x in range(8) for y in range(8) if self.tiles[x][y] == self.EMPTY]
+        tiles = [(x, y) for x in range(8)
+                 for y in range(8) if self.tiles[x][y] == self.EMPTY]
 
         for x, y in tiles:
-            if self.tiles[x][y] == self.EMPTY:  # and any(map(hasbracket, self.DIRECTIONS)):
+            # and any(map(hasbracket, self.DIRECTIONS)):
+            if self.tiles[x][y] == self.EMPTY:
                 # performs the 'inline' any:
                 for direc in self.DIRECTIONS:
                     if self.find_bracket((x, y), color, direc):
@@ -287,12 +295,14 @@ class Board(object):
         :return:
         """
         # test if every empty tile on the board is a legal move
-        tiles = [(x, y) for x in range(8) for y in range(8) if self.tiles[x][y] == color]
+        tiles = [(x, y) for x in range(8)
+                 for y in range(8) if self.tiles[x][y] == color]
 
         for x, y in tiles:
             if self.tiles[x][y] == color:
                 for direc in self.DIRECTIONS:
-                    move = self.find_where_to_play_from_owned((x, y), color, direc)
+                    move = self.find_where_to_play_from_owned(
+                        (x, y), color, direc)
                     if move:
                         # flips x,y because of the way tiles are stored and the x,y coords in real world
                         self._legal_moves[color].append((move[1], move[0]))
@@ -304,12 +314,14 @@ class Board(object):
         :return:bool
         """
         # test if every empty tile on the board is a legal move
-        tiles = [(x, y) for x in range(8) for y in range(8) if self.tiles[x][y] == self.EMPTY]
+        tiles = [(x, y) for x in range(8)
+                 for y in range(8) if self.tiles[x][y] == self.EMPTY]
 
         for x, y in tiles:
             # self._legal_moves[color] = [(y, x) for x, y in tiles if self.is_legal((x, y), color)]
 
-            hasbracket = lambda direction: self.find_bracket((x, y), color, direction)
+            def hasbracket(direction): return self.find_bracket(
+                (x, y), color, direction)
 
             if self.tiles[x][y] == self.EMPTY and any(map(hasbracket, self.DIRECTIONS)):
                 return True
@@ -363,7 +375,8 @@ class Board(object):
                             string += f'*{piece}'
                             if j == 7:
                                 string += '*'  # adds sign to the right of boundary piece
-                        elif (i, j-1) == highlight or (i, j-1) in self.flipped:  # shows sign at the piece to the right of the highlighted one
+                        # shows sign at the piece to the right of the highlighted one
+                        elif (i, j-1) == highlight or (i, j-1) in self.flipped:
                             string += f'*{piece}'
                         else:
                             string += f' {piece}'
